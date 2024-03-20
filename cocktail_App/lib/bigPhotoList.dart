@@ -56,7 +56,7 @@ class _bigPhotoCardState extends State<bigPhotoCard> {
               child: SizedBox(
                 width: 35,
                 height: 35,
-                child: LikeButton(
+                child: LikeButton(   ///favorite
                   onTap: ((isLiked) =>
                       onLikeButtonTapped(isLiked, widget.cocktail)),
                 ),

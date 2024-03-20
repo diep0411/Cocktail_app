@@ -16,7 +16,7 @@ void main() {
 
 const List<Widget> _widgetOptions = <Widget>[
   mainPage(),
-  // favoritePage(),
+  favoritePage(),
   searchPage(),
 ];
 
@@ -77,8 +77,8 @@ class _MyAppState extends State<MyApp> {
               items: const [
                 BottomNavigationBarItem(
                     icon: Icon(Icons.home_outlined), label: 'Home'),
-                // BottomNavigationBarItem(
-                //     icon: Icon(Icons.star_border_outlined,), label: 'Liked'),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.star_border_outlined,), label: 'Liked'),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.search), label: 'Search'),
               ],

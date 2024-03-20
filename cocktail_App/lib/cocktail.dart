@@ -5,6 +5,7 @@ class Cocktail {
 
   List<Drinks> drinks;
 
+
   factory Cocktail.fromJson(Map<String, dynamic> json) => Cocktail(
       drinks: List<Drinks>.from(json["drinks"].map((x) => Drinks.fromJson(x)))
           .toList());
@@ -19,7 +20,7 @@ class Cocktail {
           .toList());
 }
 
-class Drinks {
+class Drinks { //thông tin chi tiết của một loại cocktail
   Drinks({
     required this.idDrink,
     required this.strDrink,
@@ -89,7 +90,7 @@ class Drinks {
   );
 }
 
-class Alcholic {
+class Alcholic { //cocktail có cồn
   String? idDrink;
   String? strDrink;
   String? strDrinkThumb;
@@ -105,7 +106,7 @@ class Alcholic {
       strDrinkThumb: json["strDrinkThumb"]);
 }
 
-class NonAlcholic {
+class NonAlcholic {  //cocktail không có cồn
   String? idDrink;
   String? strDrink;
   String? strDrinkThumb;
