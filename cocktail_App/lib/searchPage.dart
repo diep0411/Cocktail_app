@@ -41,93 +41,103 @@ class _searchPageState extends State<searchPage> {
 
   @override
   Widget build(BuildContext context) {
-    var screenSize = MediaQuery.of(context).size;
+    var screenSize = MediaQuery
+        .of(context)
+        .size;
     return Scaffold(
       backgroundColor: primary,
       body: SafeArea(
-          child: Column(
-            children: [
-              Container(
-                padding: EdgeInsets.all(10),
-                height: screenSize.height / 7.6,
-                child: TextField(
-                    onSubmitted: (value) {
-                      setState(() {
-                        futureCocktail = getCocktail();
-                        cocktailName = _controller.text;
-                        _controller.text = "";
-                      });
-                      futureCocktail = getCocktail();
-                    },
-                    style: TextStyle(color: Colors.white, fontSize: 15),
-                    cursorColor: Colors.white,
-                    controller: _controller,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.white, width: 1),
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.white, width: 1),
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      hintStyle: TextStyle(color: Colors.white, fontSize: 15),
-                      hintText: "Search cocktail",
-                      prefixIcon: const Icon(
-                        Icons.search,
-                        color: Colors.white,
-                      ),
-                    )),
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.all(10),
+              height: screenSize.height / 7.6,
+              child: TextField(
+                onSubmitted: (value) {
+                  setState(() {
+                    futureCocktail = getCocktail();
+                    cocktailName = _controller.text;
+                    _controller.text = "";
+                  });
+                  futureCocktail = getCocktail();
+                },
+                style: TextStyle(color: Colors.white, fontSize: 15),
+                cursorColor: Colors.white,
+                controller: _controller,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.white, width: 1),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.white, width: 1),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  hintStyle: TextStyle(color: Colors.white, fontSize: 15),
+                  hintText: "Search cocktail",
+                  prefixIcon: const Icon(
+                    Icons.search,
+                    color: Colors.white,
+                  ),
+                ),
               ),
-              SizedBox(
-                width: screenSize.width,
-                height: screenSize.height / 1.55,
-                child: FutureBuilder<Cocktail>(
-                    future: futureCocktail,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        var ckList = snapshot.data!;
-                        return GridView.builder(
-                            gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisSpacing: 5,
-                              mainAxisSpacing: 5,
-                              crossAxisCount: 2,
-                            ),
-                            itemCount: ckList.drinks.length,
-                            itemBuilder: (context, index) {
-                              return GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (builder) => DetailPage(
-                                                cocktailId: ckList
-                                                    .drinks[index].idDrink
-                                                    .toString())));
-                                  },
-                                  child: resultCard(cklist: ckList, index: index));
-                            });
-                      } else if (snapshot.hasError) {
-                        return const Center(
-                            child: Text(
-                              "Nothing found here",
-                              style: TextStyle(color: Colors.white, fontSize: 30),
-                            ));
-                      } else {
-                        return const Center(
-                          child: CircularProgressIndicator(),
+            ),
+            Expanded( // Thay thế SizedBox bằng Expanded
+              //Expanded để cho phép GridView mở rộng theo
+              // không gian còn trống trong Column.
+              child: FutureBuilder<Cocktail>(
+                future: futureCocktail,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    var ckList = snapshot.data!;
+                    return GridView.builder(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisSpacing: 5,
+                        mainAxisSpacing: 5,
+                        crossAxisCount: 2,
+                      ),
+                      itemCount: ckList.drinks.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (builder) =>
+                                    DetailPage(
+                                      cocktailId: ckList.drinks[index].idDrink
+                                          .toString(),
+                                    ),
+                              ),
+                            );
+                          },
+                          child: resultCard(cklist: ckList, index: index),
                         );
-                      }
-                    }),
-              )
-            ],
-          )),
+                      },
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text(
+                        "Nothing found here",
+                        style: TextStyle(color: Colors.white, fontSize: 30),
+                      ),
+                    );
+                  } else {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
 
-class resultCard extends StatefulWidget {
+  class resultCard extends StatefulWidget {
   resultCard({Key? key, required this.cklist, required this.index})
       : super(key: key);
   final Cocktail cklist;

@@ -104,10 +104,14 @@ class _MyAppState extends State<MyApp> {
                 BottomNavigationBarItem(
                     icon: Icon(Icons.home_outlined), label: 'Home'),
                 BottomNavigationBarItem(
+<<<<<<< Updated upstream
                     icon: Icon(
                       Icons.star_border_outlined,
                     ),
                     label: 'Liked'),
+=======
+                    icon: Icon(Icons.heart_broken,), label: 'Liked'),
+>>>>>>> Stashed changes
                 BottomNavigationBarItem(
                     icon: Icon(Icons.search), label: 'Search'),
               ],

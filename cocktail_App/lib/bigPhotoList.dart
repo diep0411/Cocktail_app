@@ -18,7 +18,7 @@ class bigPhotoCard extends StatefulWidget {
   @override
   State<bigPhotoCard> createState() => _bigPhotoCardState();
 }
-
+//thêm đối tượng cocktail ck vào danh sách liked.
 class _bigPhotoCardState extends State<bigPhotoCard> {
   Future<bool> onLikeButtonTapped(bool isLiked, Drinks ck) async {
     liked.add(ck);
