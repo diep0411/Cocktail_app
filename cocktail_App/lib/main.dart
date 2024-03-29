@@ -2,7 +2,11 @@
 
 import 'dart:convert';
 import 'dart:math';
+import 'package:cocktail_app/firebase_options.dart';
 import 'package:cocktail_app/searchPage.dart';
+import 'package:cocktail_app/signIn.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'bigPhotoList.dart';
@@ -10,8 +14,12 @@ import 'cocktail.dart';
 import 'constants.dart';
 import 'favoritePage.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(const SignInScreen());
 }
 
 const List<Widget> _widgetOptions = <Widget>[
@@ -66,6 +74,24 @@ class _MyAppState extends State<MyApp> {
             "Cocktaila",
             style: title,
           ),
+          actions: [
+            InkWell(
+              onTap: () async => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SignInScreen()),
+                ),
+                await FirebaseAuth.instance.signOut(),
+              },
+              child: const Icon(
+                Icons.logout,
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(
+              width: 30,
+            )
+          ],
         ),
         backgroundColor: primary,
         body: _widgetOptions[selectedIndex],
@@ -78,7 +104,10 @@ class _MyAppState extends State<MyApp> {
                 BottomNavigationBarItem(
                     icon: Icon(Icons.home_outlined), label: 'Home'),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.star_border_outlined,), label: 'Liked'),
+                    icon: Icon(
+                      Icons.star_border_outlined,
+                    ),
+                    label: 'Liked'),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.search), label: 'Search'),
               ],
